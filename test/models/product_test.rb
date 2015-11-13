@@ -39,7 +39,7 @@ class ProductTest < ActiveSupport::TestCase
   end
 
   def new_product (image_url)
-    Product.new(title: "xxx",
+    Product.new(title: "xxxxxxxxxx",
                 description: "yyy",
                 price: 1,
                 image_url: image_url)
@@ -66,4 +66,32 @@ class ProductTest < ActiveSupport::TestCase
     assert !product.save
     assert_equal "has already been taken", product.errors[:title].join('; ')
   end
+
+  test "title minimum 10 characters" do
+    product = products(:ruby)
+
+    product.title = "123456789"
+    assert product.invalid?
+    assert product.errors[:title].join(";").include?("10文字以上")
+
+    product.title = "あいうえおかきくけ"
+    assert product.invalid?
+
+    product.title = "1234567890"
+    assert product.valid?
+
+    # 全てが半角スペースの時は「空っぽ扱い」らしいよ！
+    product.title = "          "
+    assert product.invalid?, "#{product.title.size} characters"
+    assert product.errors[:title].join(";").include?("can't be blank")
+
+    # 全てが全角スペースの時も「空っぽ扱い」らしいよ！
+    product.title = "　　　　　　　　　　"
+    assert product.invalid?, "#{product.title.size} characters"
+
+    # 1文字でもスペース以外が含まれていたらvalidらしいよ！.strip
+    product.title = "0          "
+    assert product.valid?, "#{product.title.size} characters"
+  end
+
 end
