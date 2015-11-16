@@ -3,7 +3,7 @@
 <% end %>
 
 <h1>Pragmaticカタログ</h1>
-
+<p><%= @countup %></p>
 <% @products.each do |product| %>
   <div class="entry">
     <%= image_tag(product.image_url) %>
