@@ -2,8 +2,7 @@
 <p id="notice"><%= notice %></p>
 <% end %>
 
-<h1>Pragmaticカタログ</h1>
-<p><%= @countup %></p>
+<h1>Pragmaticカタログ<br><%= @countup %></h1>
 <% @products.each do |product| %>
   <div class="entry">
     <%= image_tag(product.image_url) %>

@@ -17,5 +17,7 @@ class StoreController < ApplicationController
     else
     @countup = "アクセスは#{session[:counter]}回目です。"
     end
+
+    @cart = current_cart
   end
 end
