@@ -2,7 +2,11 @@ class StoreController < ApplicationController
   skip_before_action :authorize
 
   def index
-    @products = Product.order(:title)
+    if params[:set_locale]
+      redirect_to store_path(locale: params[:set_locale])
+    else
+      @products = Product.order(:title)
+
 
     puts "------------------"
     puts session[:counter]
@@ -20,5 +24,6 @@ class StoreController < ApplicationController
     end
 
     @cart = current_cart
+    end
   end
 end
